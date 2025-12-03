@@ -33,6 +33,7 @@
                     boxShadow: {
                         'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.3)',
                         'gold': '0 4px 20px -2px rgba(177, 169, 110, 0.2)',
+                        'glow': '0 0 15px rgba(177, 169, 110, 0.15)',
                     }
                 }
             }
@@ -40,7 +41,7 @@
     </script>
 
     <style>
-        /* Estilos personalizados para animaciones y detalles finos */
+        /* Estilos personalizados */
         body {
             background-color: #0D2240;
             color: #ffffff;
@@ -59,20 +60,21 @@
             transform: none;
         }
 
-        /* Glassmorphism sutil para tarjetas */
+        /* Glassmorphism mejorado */
         .glass-card {
-            background: rgba(26, 119, 210, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(13, 34, 64, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         .gold-gradient-text {
-            background: linear-gradient(to right, #B1A96E, #E5DFC3, #B1A96E);
+            background: linear-gradient(to right, #B1A96E, #F2E8B6, #B1A96E);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-size: 200% auto;
-            animation: shine 5s linear infinite;
+            animation: shine 6s linear infinite;
         }
 
         @keyframes shine {
@@ -81,7 +83,19 @@
             }
         }
 
-        /* Scrollbar personalizada */
+        /* Timeline vertical en la agenda */
+        .agenda-timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #B1A96E, transparent);
+            opacity: 0.3;
+        }
+
+        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -96,21 +110,14 @@
             background: #B1A96E;
         }
 
-        /* Utilidad para ocultar modal */
-        .modal-hidden {
-            display: none;
-            opacity: 0;
-        }
-        .modal-visible {
-            display: flex;
-            opacity: 1;
-        }
+        .modal-hidden { display: none; opacity: 0; }
+        .modal-visible { display: flex; opacity: 1; }
     </style>
 </head>
 <body class="antialiased font-exo selection:bg-blato-gold selection:text-blato-dark">
 
-    <!-- Navegación Minimalista -->
-    <nav class="fixed w-full z-50 top-0 left-0 py-4 px-6 md:px-12 bg-blato-dark/90 backdrop-blur-md border-b border-white/5">
+    <!-- Navegación -->
+    <nav class="fixed w-full z-50 top-0 left-0 py-4 px-6 md:px-12 bg-blato-dark/95 backdrop-blur-md border-b border-white/5 shadow-lg">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="font-bold text-2xl tracking-tighter text-white">
                 Blato<span class="text-blato-primary">RH</span> <span class="text-xs font-normal tracking-widest text-blato-gold ml-2 uppercase opacity-80 border-l border-blato-gold pl-2">Leaders Club</span>
@@ -121,353 +128,502 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <header class="relative min-h-screen flex flex-col justify-center items-center px-6 text-center pt-20">
-        <!-- Elementos decorativos de fondo -->
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blato-primary rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blato-gold rounded-full mix-blend-multiply filter blur-[128px] opacity-10"></div>
+    <!-- HERO -->
+    <header class="relative min-h-screen flex flex-col justify-center items-center px-6 text-center pt-20 overflow-hidden">
+        <!-- Fondos dinámicos -->
+        <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blato-primary rounded-full mix-blend-multiply filter blur-[120px] opacity-10 animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blato-gold rounded-full mix-blend-multiply filter blur-[120px] opacity-10"></div>
 
-        <div class="relative z-10 max-w-4xl mx-auto fade-in-section is-visible">
-            <div class="flex justify-center gap-3 mb-6 flex-wrap">
-                <span class="px-3 py-1 border border-blato-gold text-blato-gold text-xs uppercase tracking-widest rounded-full">3er Martes del mes</span>
-                <span class="px-3 py-1 border border-blato-gold text-blato-gold text-xs uppercase tracking-widest rounded-full">Voluntario</span>
-                <span class="px-3 py-1 border border-blato-gold text-blato-gold text-xs uppercase tracking-widest rounded-full">Distendido</span>
+        <div class="relative z-10 max-w-5xl mx-auto fade-in-section is-visible">
+            <div class="flex justify-center gap-4 mb-8 flex-wrap">
+                <span class="px-4 py-1.5 border border-blato-gold/50 text-blato-gold text-xs font-bold uppercase tracking-[0.2em] rounded-full bg-blato-gold/5">3er Martes del mes</span>
+                <span class="px-4 py-1.5 border border-white/20 text-gray-300 text-xs font-bold uppercase tracking-[0.2em] rounded-full">Voluntario</span>
             </div>
             
-            <h1 class="font-bebas text-6xl md:text-8xl lg:text-9xl leading-none mb-6 gold-gradient-text">
+            <h1 class="font-bebas text-7xl md:text-9xl leading-[0.9] mb-8 gold-gradient-text drop-shadow-2xl">
                 Cafecito Virtual<br>Líderes
             </h1>
             
-            <p class="text-xl md:text-2xl text-gray-300 font-light max-w-2xl mx-auto mb-10">
+            <p class="text-xl md:text-2xl text-gray-300 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
                 45 minutos al mes para desconectar del rol y conectar con la persona.
             </p>
 
-            <a href="#que-es" class="inline-block animate-bounce text-blato-gold opacity-80 hover:opacity-100 transition-opacity">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <a href="#que-es" class="inline-flex flex-col items-center text-blato-gold opacity-60 hover:opacity-100 transition-all duration-500 group">
+                <span class="text-xs uppercase tracking-widest mb-2">Descubrir</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
             </a>
         </div>
     </header>
 
-    <!-- SECTION: QUÉ ES -->
-    <section id="que-es" class="py-20 px-6 bg-blato-dark relative fade-in-section">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="font-bebas text-4xl md:text-5xl mb-6 text-white">Más que una reunión</h2>
-            <p class="text-lg md:text-xl leading-relaxed text-gray-300">
-                Es un respiro en la agenda. Un espacio diseñado exclusivamente para fortalecer vínculos y generar esa confianza que solo nace de la cercanía real. Aquí los cargos quedan en la puerta; entramos para charlar, reírnos un poco y conocernos en facetas que el día a día laboral suele ocultar.
+    <!-- QUÉ ES -->
+    <section id="que-es" class="py-24 px-6 bg-[#0a1b33] relative fade-in-section border-t border-white/5">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="font-bebas text-5xl mb-8 text-white">Más que una reunión</h2>
+            <p class="text-xl md:text-2xl leading-relaxed text-gray-300 font-light">
+                Es un respiro en la agenda. Un espacio diseñado exclusivamente para fortalecer vínculos y generar esa confianza que solo nace de la cercanía real. <span class="text-blato-gold">Los cargos quedan en la puerta</span>; entramos para charlar, reírnos un poco y conocernos en facetas que el día a día laboral suele ocultar.
             </p>
         </div>
     </section>
 
-    <!-- SECTION: CÓMO SE VIVE (EXPERIENCIA) -->
-    <section class="py-24 px-6 relative bg-gradient-to-b from-blato-dark to-[#08162b] fade-in-section">
+    <!-- EXPERIENCIA -->
+    <section class="py-24 px-6 relative bg-gradient-to-b from-[#0a1b33] to-blato-dark fade-in-section">
         <div class="max-w-6xl mx-auto">
-            <h2 class="font-bebas text-4xl md:text-5xl mb-16 text-center text-blato-gold">La Experiencia</h2>
+            <div class="text-center mb-20">
+                <h2 class="font-bebas text-5xl text-blato-gold mb-2">La Experiencia</h2>
+                <p class="text-gray-400">Cómo fluye un encuentro típico</p>
+            </div>
             
-            <!-- Timeline Horizontal Desktop / Vertical Mobile -->
-            <div class="relative">
-                <!-- Línea conectora -->
-                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-blato-primary/20 md:-translate-x-1/2"></div>
-
-                <!-- Paso 1 -->
-                <div class="relative flex items-center justify-between md:justify-normal gap-8 mb-12 md:flex-row-reverse group">
-                    <div class="hidden md:block w-5/12"></div>
-                    <div class="z-10 bg-blato-dark border-2 border-blato-primary text-blato-primary rounded-full p-3 shadow-soft group-hover:scale-110 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 3-2 3-2zm0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                        </svg>
-                    </div>
-                    <div class="w-10/12 md:w-5/12 bg-white/5 p-6 rounded-lg border-l-4 border-blato-primary glass-card hover:bg-white/10 transition-colors">
-                        <h3 class="font-bebas text-2xl mb-2 text-white">Previa Musical</h3>
-                        <p class="text-gray-400 text-sm">La sala abre antes. Música suave (80s/90s) para ir entrando en clima mientras nos sumamos.</p>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Step 1 -->
+                <div class="glass-card p-8 rounded-xl relative group hover:bg-white/5 transition-all duration-300 border-t-4 border-t-blato-primary">
+                    <div class="absolute -top-4 left-6 bg-blato-primary text-white text-xs font-bold px-3 py-1 rounded shadow-lg">01</div>
+                    <h3 class="font-bebas text-2xl mb-3 text-white">Previa Musical</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Sala abierta unos minutos antes. Hits de los 80s/90s sonando de fondo para cambiar el chip mental.</p>
                 </div>
 
-                <!-- Paso 2 -->
-                <div class="relative flex items-center justify-between md:justify-normal gap-8 mb-12 group">
-                    <div class="hidden md:block w-5/12"></div>
-                    <div class="z-10 bg-blato-dark border-2 border-blato-gold text-blato-gold rounded-full p-3 shadow-soft group-hover:scale-110 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <div class="w-10/12 md:w-5/12 bg-white/5 p-6 rounded-lg border-r-0 md:border-r-4 md:border-l-0 border-l-4 border-blato-gold glass-card text-left md:text-right hover:bg-white/10 transition-colors">
-                        <h3 class="font-bebas text-2xl mb-2 text-white">Check-in Flash</h3>
-                        <p class="text-gray-400 text-sm">10 segundos por persona. Una frase o palabra (ej: "Nivel de energía").</p>
-                    </div>
+                <!-- Step 2 -->
+                <div class="glass-card p-8 rounded-xl relative group hover:bg-white/5 transition-all duration-300 border-t-4 border-t-blato-gold">
+                    <div class="absolute -top-4 left-6 bg-blato-gold text-blato-dark text-xs font-bold px-3 py-1 rounded shadow-lg">02</div>
+                    <h3 class="font-bebas text-2xl mb-3 text-white">Check-in Flash</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">10 segundos por persona. Una frase o palabra (ej: "Nivel de energía") para romper el hielo.</p>
                 </div>
 
-                <!-- Paso 3 -->
-                <div class="relative flex items-center justify-between md:justify-normal gap-8 mb-12 md:flex-row-reverse group">
-                    <div class="hidden md:block w-5/12"></div>
-                    <div class="z-10 bg-blato-dark border-2 border-blato-primary text-blato-primary rounded-full p-3 shadow-soft group-hover:scale-110 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-                        </svg>
-                    </div>
-                    <div class="w-10/12 md:w-5/12 bg-white/5 p-6 rounded-lg border-l-4 border-blato-primary glass-card hover:bg-white/10 transition-colors">
-                        <h3 class="font-bebas text-2xl mb-2 text-white">Dinámica Central</h3>
-                        <p class="text-gray-400 text-sm">Consigna propuesta por el organizador del mes. Temas de vida, viajes o gustos.</p>
-                    </div>
+                <!-- Step 3 -->
+                <div class="glass-card p-8 rounded-xl relative group hover:bg-white/5 transition-all duration-300 border-t-4 border-t-blato-primary">
+                    <div class="absolute -top-4 left-6 bg-blato-primary text-white text-xs font-bold px-3 py-1 rounded shadow-lg">03</div>
+                    <h3 class="font-bebas text-2xl mb-3 text-white">Dinámica Central</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">El corazón del encuentro. Consigna propuesta por el anfitrión. Temas de vida, viajes o gustos.</p>
                 </div>
 
-                <!-- Paso 4 -->
-                <div class="relative flex items-center justify-between md:justify-normal gap-8 group">
-                    <div class="hidden md:block w-5/12"></div>
-                    <div class="z-10 bg-blato-dark border-2 border-blato-gold text-blato-gold rounded-full p-3 shadow-soft group-hover:scale-110 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <div class="w-10/12 md:w-5/12 bg-white/5 p-6 rounded-lg border-r-0 md:border-r-4 md:border-l-0 border-l-4 border-blato-gold glass-card text-left md:text-right hover:bg-white/10 transition-colors">
-                        <h3 class="font-bebas text-2xl mb-2 text-white">Cierre y Relevo</h3>
-                        <p class="text-gray-400 text-sm">"Algo que me llevo" y definición de quién organiza el próximo cafecito.</p>
-                    </div>
+                <!-- Step 4 -->
+                <div class="glass-card p-8 rounded-xl relative group hover:bg-white/5 transition-all duration-300 border-t-4 border-t-blato-gold">
+                    <div class="absolute -top-4 left-6 bg-blato-gold text-blato-dark text-xs font-bold px-3 py-1 rounded shadow-lg">04</div>
+                    <h3 class="font-bebas text-2xl mb-3 text-white">Cierre y Relevo</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">"Algo que me llevo" y lo más importante: definir quién organiza el próximo cafecito.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECTION: DINÁMICAS (CARDS) -->
-    <section class="py-24 px-6 max-w-7xl mx-auto fade-in-section">
-        <h2 class="font-bebas text-4xl md:text-5xl mb-4 text-center">Conversaciones que conectan</h2>
-        <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Olvidémonos del roadmap por un rato. Aquí hablamos de lo que nos mueve.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Card 1 -->
-            <div class="bg-[#0f2a4d] p-6 rounded-xl border-b-2 border-blato-gold hover:-translate-y-2 transition-transform duration-300">
-                <h3 class="font-bebas text-xl text-blato-gold mb-2">Lugar Pendiente</h3>
-                <p class="text-sm text-gray-300">¿Qué destino tenés en tu lista de deseos desde hace años y por qué?</p>
+    <!-- DINÁMICAS (CARDS) -->
+    <section class="py-24 px-6 max-w-7xl mx-auto fade-in-section border-t border-white/5">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+                <h2 class="font-bebas text-5xl mb-2">Conversaciones que conectan</h2>
+                <p class="text-gray-400 max-w-xl">Olvidémonos del roadmap por un rato. Aquí hablamos de lo que nos mueve como personas.</p>
             </div>
-            <!-- Card 2 -->
-            <div class="bg-[#0f2a4d] p-6 rounded-xl border-b-2 border-blato-primary hover:-translate-y-2 transition-transform duration-300">
-                <h3 class="font-bebas text-xl text-blato-primary mb-2">Comida que define</h3>
-                <p class="text-sm text-gray-300">Ese plato que amás comer o esa especialidad que sabés cocinar.</p>
-            </div>
-            <!-- Card 3 -->
-            <div class="bg-[#0f2a4d] p-6 rounded-xl border-b-2 border-blato-gold hover:-translate-y-2 transition-transform duration-300">
-                <h3 class="font-bebas text-xl text-blato-gold mb-2">Objeto con historia</h3>
-                <p class="text-sm text-gray-300">Algo que tengas en tu escritorio o casa que tenga un valor especial.</p>
-            </div>
-            <!-- Card 4 -->
-            <div class="bg-[#0f2a4d] p-6 rounded-xl border-b-2 border-blato-primary hover:-translate-y-2 transition-transform duration-300">
-                <h3 class="font-bebas text-xl text-blato-primary mb-2">El Plan Perfecto</h3>
-                <p class="text-sm text-gray-300">Describí tu sábado ideal, sin filtros ni pretensiones.</p>
-            </div>
-             <!-- Card 5 -->
-             <div class="bg-[#0f2a4d] p-6 rounded-xl border-b-2 border-blato-primary hover:-translate-y-2 transition-transform duration-300">
-                <h3 class="font-bebas text-xl text-blato-primary mb-2">Viaje del Año</h3>
-                <p class="text-sm text-gray-300">¿A dónde fuiste o a dónde soñás escaparte este año?</p>
-            </div>
-            <!-- Card 6 -->
-            <div class="bg-[#0f2a4d] p-6 rounded-xl border-b-2 border-blato-gold hover:-translate-y-2 transition-transform duration-300">
-                <h3 class="font-bebas text-xl text-blato-gold mb-2">Tema Musical</h3>
-                <p class="text-sm text-gray-300">Esa canción o estilo que podrías escuchar en loop todo el día.</p>
-            </div>
-            <!-- Card 7 -->
-            <div class="bg-[#0f2a4d] p-6 rounded-xl border-b-2 border-blato-primary hover:-translate-y-2 transition-transform duration-300">
-                <h3 class="font-bebas text-xl text-blato-primary mb-2">Hobby Oculto</h3>
-                <p class="text-sm text-gray-300">Jardinería, mecánica, gaming... ¿qué hacés cuando nadie mira?</p>
-            </div>
-            <!-- Card 8 -->
-            <div class="bg-[#0f2a4d] p-6 rounded-xl border-b-2 border-blato-gold hover:-translate-y-2 transition-transform duration-300">
-                <h3 class="font-bebas text-xl text-blato-gold mb-2">Una Foto</h3>
-                <p class="text-sm text-gray-300">Compartir una foto con historia (sin datos sensibles).</p>
-            </div>
-        </div>
-
-        <div class="mt-10 text-center">
-            <button onclick="toggleModal()" class="px-8 py-3 border border-white/20 hover:border-blato-gold hover:text-blato-gold rounded-full transition-all text-sm uppercase tracking-widest font-semibold">
-                Ver más ejemplos de temas
+            <button onclick="toggleModal()" class="px-6 py-2 border border-blato-gold text-blato-gold hover:bg-blato-gold hover:text-blato-dark rounded transition-all text-xs uppercase tracking-widest font-bold">
+                Ver lista completa
             </button>
         </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Cards con diseño mejorado -->
+            <div class="group bg-[#0f2a4d] p-6 rounded-lg hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
+                <div class="h-1 w-12 bg-blato-gold mb-4 group-hover:w-full transition-all duration-500"></div>
+                <h3 class="font-bebas text-2xl text-white mb-2 group-hover:text-blato-gold transition-colors">Lugar Pendiente</h3>
+                <p class="text-sm text-gray-400">¿Qué destino tenés en tu lista de deseos desde hace años y por qué?</p>
+            </div>
+            
+            <div class="group bg-[#0f2a4d] p-6 rounded-lg hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
+                <div class="h-1 w-12 bg-blato-primary mb-4 group-hover:w-full transition-all duration-500"></div>
+                <h3 class="font-bebas text-2xl text-white mb-2 group-hover:text-blato-primary transition-colors">Comida que define</h3>
+                <p class="text-sm text-gray-400">Ese plato que amás comer o esa especialidad que sabés cocinar.</p>
+            </div>
+
+            <div class="group bg-[#0f2a4d] p-6 rounded-lg hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
+                <div class="h-1 w-12 bg-blato-gold mb-4 group-hover:w-full transition-all duration-500"></div>
+                <h3 class="font-bebas text-2xl text-white mb-2 group-hover:text-blato-gold transition-colors">Objeto con historia</h3>
+                <p class="text-sm text-gray-400">Algo que tengas en tu escritorio o casa que tenga un valor especial.</p>
+            </div>
+
+            <div class="group bg-[#0f2a4d] p-6 rounded-lg hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
+                <div class="h-1 w-12 bg-blato-primary mb-4 group-hover:w-full transition-all duration-500"></div>
+                <h3 class="font-bebas text-2xl text-white mb-2 group-hover:text-blato-primary transition-colors">El Plan Perfecto</h3>
+                <p class="text-sm text-gray-400">Describí tu sábado ideal, sin filtros ni pretensiones.</p>
+            </div>
+            
+            <div class="group bg-[#0f2a4d] p-6 rounded-lg hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
+                <div class="h-1 w-12 bg-blato-primary mb-4 group-hover:w-full transition-all duration-500"></div>
+                <h3 class="font-bebas text-2xl text-white mb-2 group-hover:text-blato-primary transition-colors">Viaje del Año</h3>
+                <p class="text-sm text-gray-400">¿A dónde fuiste o a dónde soñás escaparte este año?</p>
+            </div>
+
+            <div class="group bg-[#0f2a4d] p-6 rounded-lg hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
+                <div class="h-1 w-12 bg-blato-gold mb-4 group-hover:w-full transition-all duration-500"></div>
+                <h3 class="font-bebas text-2xl text-white mb-2 group-hover:text-blato-gold transition-colors">Tema Musical</h3>
+                <p class="text-sm text-gray-400">Esa canción o estilo que podrías escuchar en loop todo el día.</p>
+            </div>
+
+            <div class="group bg-[#0f2a4d] p-6 rounded-lg hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
+                <div class="h-1 w-12 bg-blato-primary mb-4 group-hover:w-full transition-all duration-500"></div>
+                <h3 class="font-bebas text-2xl text-white mb-2 group-hover:text-blato-primary transition-colors">Hobby Oculto</h3>
+                <p class="text-sm text-gray-400">Jardinería, mecánica, gaming... ¿qué hacés cuando nadie mira?</p>
+            </div>
+
+            <div class="group bg-[#0f2a4d] p-6 rounded-lg hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
+                <div class="h-1 w-12 bg-blato-gold mb-4 group-hover:w-full transition-all duration-500"></div>
+                <h3 class="font-bebas text-2xl text-white mb-2 group-hover:text-blato-gold transition-colors">Una Foto</h3>
+                <p class="text-sm text-gray-400">Compartir una foto con historia (sin datos sensibles).</p>
+            </div>
+        </div>
     </section>
 
-    <!-- SECTION: TEMAS DEL MES & REGLAS -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 bg-[#0a1b33]">
+    <!-- TEMAS DEL MES & REGLAS -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 bg-[#08162b] border-y border-white/5">
         <!-- Columna Temas -->
         <div class="p-12 lg:p-20 border-b lg:border-b-0 lg:border-r border-white/5 fade-in-section">
-            <h3 class="font-bebas text-3xl mb-8 text-blato-primary">Sugerencias del Mes</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <h3 class="font-bebas text-3xl mb-8 text-blato-primary tracking-wide">Sugerencias del Mes</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div>
-                    <h4 class="font-bold text-white mb-2 border-l-2 border-blato-gold pl-3">Vacaciones</h4>
-                    <p class="text-sm text-gray-400">Recomendaciones express, lugares sobrevalorados, joyas ocultas.</p>
+                    <h4 class="font-bold text-white mb-2 flex items-center gap-2">
+                        <span class="w-1 h-4 bg-blato-gold block"></span> Vacaciones
+                    </h4>
+                    <p class="text-sm text-gray-400 pl-3">Recomendaciones express, lugares sobrevalorados, joyas ocultas.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-white mb-2 border-l-2 border-blato-gold pl-3">Tech & Gadgets</h4>
-                    <p class="text-sm text-gray-400">Apps que te salvaron la vida o ese gadget que querés comprar.</p>
+                    <h4 class="font-bold text-white mb-2 flex items-center gap-2">
+                        <span class="w-1 h-4 bg-blato-gold block"></span> Tech & Gadgets
+                    </h4>
+                    <p class="text-sm text-gray-400 pl-3">Apps que te salvaron la vida o ese gadget que querés comprar.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-white mb-2 border-l-2 border-blato-gold pl-3">Experiencias</h4>
-                    <p class="text-sm text-gray-400">"Algo que hice por primera vez este año".</p>
+                    <h4 class="font-bold text-white mb-2 flex items-center gap-2">
+                        <span class="w-1 h-4 bg-blato-gold block"></span> Experiencias
+                    </h4>
+                    <p class="text-sm text-gray-400 pl-3">"Algo que hice por primera vez este año" o que me sorprendió.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-white mb-2 border-l-2 border-blato-gold pl-3">Comunidad</h4>
-                    <p class="text-sm text-gray-400">Un café, una parrilla o un parque local para recomendar.</p>
+                    <h4 class="font-bold text-white mb-2 flex items-center gap-2">
+                        <span class="w-1 h-4 bg-blato-gold block"></span> Comunidad
+                    </h4>
+                    <p class="text-sm text-gray-400 pl-3">Un café, una parrilla o un parque local para recomendar.</p>
                 </div>
             </div>
         </div>
 
-        <h2 class="font-bebas text-4xl mb-12 text-center text-white">Ejemplo: 3er Martes del mes</h2>
+        <!-- Columna Reglas -->
+        <div class="p-12 lg:p-20 fade-in-section delay-100 bg-blato-dark/50">
+            <h3 class="font-bebas text-3xl mb-8 text-blato-gold tracking-wide">Reglas de Oro</h3>
+            <ul class="space-y-6">
+                <li class="flex items-start group">
+                    <div class="bg-blato-primary/10 p-1.5 rounded mr-4 group-hover:bg-blato-primary/20 transition-colors">
+                        <svg class="w-5 h-5 text-blato-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div>
+                        <strong class="block text-white text-sm mb-1">Voluntario Real</strong>
+                        <span class="text-gray-400 text-sm">Venís porque querés, no por obligación.</span>
+                    </div>
+                </li>
+                <li class="flex items-start group">
+                    <div class="bg-blato-primary/10 p-1.5 rounded mr-4 group-hover:bg-blato-primary/20 transition-colors">
+                        <svg class="w-5 h-5 text-blato-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                    </div>
+                    <div>
+                        <strong class="block text-white text-sm mb-1">Cero Trabajo</strong>
+                        <span class="text-gray-400 text-sm">Zona libre de status y deadlines.</span>
+                    </div>
+                </li>
+                <li class="flex items-start group">
+                    <div class="bg-blato-primary/10 p-1.5 rounded mr-4 group-hover:bg-blato-primary/20 transition-colors">
+                        <svg class="w-5 h-5 text-blato-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div>
+                        <strong class="block text-white text-sm mb-1">Off the Record</strong>
+                        <span class="text-gray-400 text-sm">Sin grabación. Lo que pasa en el cafecito, queda ahí.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- AGENDA / ORGANIZACIÓN (Rearmado Profesional) -->
+    <section id="agenda" class="py-24 px-6 max-w-5xl mx-auto fade-in-section">
         
-        <div class="bg-gradient-to-r from-blato-primary/20 to-blato-dark p-8 rounded-2xl border border-white/10 mb-12">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <!-- Clock -->
-                <div class="text-center md:text-left">
-                    <span class="block text-5xl font-bebas text-blato-gold">17:00</span>
-                    <span class="text-xs uppercase tracking-widest text-gray-400">Inicio</span>
-                </div>
-                <!-- Agenda List -->
-                <div class="flex-1 space-y-4">
-                    <div class="flex items-center">
-                        <span class="w-16 text-sm text-gray-400 font-mono">16:55</span>
-                        <span class="text-white ml-4">Sala abierta + Playlist</span>
+        <!-- Bloque de Organización -->
+        <div class="mb-16 bg-gradient-to-r from-[#0f2a4d] to-blato-dark p-8 md:p-10 rounded-2xl border border-blato-gold/20 flex flex-col md:flex-row items-center gap-8 shadow-2xl">
+            <div class="flex-1">
+                <h3 class="font-bebas text-3xl mb-4 text-blato-gold">Dinámica de Anfitriones</h3>
+                <p class="text-gray-300 mb-6 font-light">
+                    Para mantener el espacio fresco, la organización rota cada mes. Es simple:
+                </p>
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
+                        <span class="flex items-center justify-center w-8 h-8 rounded bg-blato-primary text-white font-bold text-sm">1</span>
+                        <p class="text-sm text-gray-300">El <strong>Organizador</strong> propone la consigna 1 semana antes.</p>
                     </div>
-                    <div class="flex items-center">
-                        <span class="w-16 text-sm text-gray-400 font-mono">17:05</span>
-                        <span class="text-white ml-4">Bienvenida y Check-in: "Tu nivel de energía en una palabra"</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="w-16 text-sm text-gray-400 font-mono">17:15</span>
-                        <span class="text-white ml-4">Tema: "Un lugar que te gustaría conocer y que aún no pudiste (solo uno)"</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="w-16 text-sm text-gray-400 font-mono">17:40</span>
-                        <span class="text-white ml-4 font-semibold text-blato-gold">Cierre y pase de mando: Definir el próximo Organizador</span>
+                    <div class="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
+                        <span class="flex items-center justify-center w-8 h-8 rounded bg-blato-gold text-blato-dark font-bold text-sm">2</span>
+                        <p class="text-sm text-gray-300">Al cierre de la reunión, se elige quién toma la posta.</p>
                     </div>
                 </div>
-                <!-- Action -->
-                <div class="text-center">
-                    <button onclick="copyToClipboard()" class="bg-blato-gold hover:bg-white text-blato-dark font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2 group shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span>Copiar a Calendar</span>
-                    </button>
-                    <p id="copy-feedback" class="text-xs text-green-400 mt-2 opacity-0 transition-opacity">¡Copiado al portapapeles!</p>
-                </div>
+            </div>
+            <div class="hidden md:block w-px h-32 bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
+            <div class="text-center md:text-right min-w-[200px]">
+                <div class="text-gray-400 text-xs uppercase tracking-widest mb-2">Próxima fecha sugerida</div>
+                <div class="font-bebas text-5xl text-white">3er Martes</div>
+                <div class="text-blato-primary text-sm font-bold uppercase tracking-widest mt-1">De cada mes</div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-            <div>
+        <h2 class="font-bebas text-4xl mb-10 text-center text-white">Ejemplo de Agenda</h2>
+        
+        <!-- Tarjeta Agenda Pro -->
+        <div class="glass-card rounded-2xl overflow-hidden shadow-2xl">
+            <!-- Header Agenda -->
+            <div class="bg-[#050f1e]/80 p-6 flex justify-between items-center border-b border-white/5">
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-xs font-mono text-gray-500 uppercase tracking-widest">Martes • 17:00 - 17:45</div>
+            </div>
+
+            <div class="p-0 md:p-8 grid grid-cols-1 md:grid-cols-[120px_1fr] gap-0 md:gap-8">
+                <!-- Columna Hora Principal -->
+                <div class="hidden md:flex flex-col items-center justify-center border-r border-white/5 pr-8">
+                    <span class="text-6xl font-bebas text-blato-gold drop-shadow-lg">17:00</span>
+                    <span class="text-xs uppercase tracking-[0.2em] text-gray-400 mt-2">Inicio</span>
+                </div>
+
+                <!-- Columna Timeline -->
+                <div class="relative py-8 px-6 md:px-0 space-y-8 agenda-timeline pl-8 md:pl-0">
+                    
+                    <!-- Item 1 -->
+                    <div class="relative pl-6">
+                        <div class="absolute left-[-21px] top-1 w-3 h-3 rounded-full bg-gray-600 border-2 border-blato-dark"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 mb-1">
+                            <span class="font-mono text-blato-primary text-sm font-bold">16:55</span>
+                            <h4 class="text-white font-bold text-lg">Sala Abierta + Playlist</h4>
+                        </div>
+                        <p class="text-gray-400 text-sm">Música sonando, ambiente relajado mientras van llegando.</p>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="relative pl-6">
+                        <div class="absolute left-[-21px] top-1 w-3 h-3 rounded-full bg-blato-gold border-2 border-blato-dark shadow-[0_0_10px_#B1A96E]"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 mb-1">
+                            <span class="font-mono text-blato-gold text-sm font-bold">17:05</span>
+                            <h4 class="text-white font-bold text-lg">Bienvenida & Check-in</h4>
+                        </div>
+                        <p class="text-gray-400 text-sm">"Tu nivel de energía en una palabra". Rápido y efectivo.</p>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="relative pl-6">
+                        <div class="absolute left-[-21px] top-1 w-3 h-3 rounded-full bg-blato-primary border-2 border-blato-dark"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 mb-1">
+                            <span class="font-mono text-blato-primary text-sm font-bold">17:15</span>
+                            <h4 class="text-white font-bold text-lg">Tema del Mes</h4>
+                        </div>
+                        <p class="text-gray-300 text-sm bg-white/5 p-3 rounded border-l-2 border-blato-primary">
+                            "Un lugar que te gustaría conocer y que aún no pudiste (solo uno)"
+                        </p>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="relative pl-6">
+                        <div class="absolute left-[-21px] top-1 w-3 h-3 rounded-full bg-white border-2 border-blato-dark"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 mb-1">
+                            <span class="font-mono text-white text-sm font-bold">17:40</span>
+                            <h4 class="text-white font-bold text-lg">Cierre & Pase de Mando</h4>
+                        </div>
+                        <p class="text-gray-400 text-sm">Definición del próximo Organizador y despedida.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Footer Agenda -->
+            <div class="bg-[#050f1e]/80 p-6 border-t border-white/5 flex justify-center md:justify-end">
+                 <button onclick="copyToClipboard()" class="bg-blato-gold hover:bg-white text-blato-dark font-bold py-3 px-8 rounded shadow-lg transition-all flex items-center gap-3 transform hover:scale-105 active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>Copiar invitación a Calendar</span>
+                </button>
+            </div>
+        </div>
+        
+        <p id="copy-feedback" class="text-center text-sm text-blato-gold mt-4 opacity-0 transition-opacity font-bold tracking-wide">¡Texto copiado al portapapeles!</p>
+
+        <!-- Tools Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 text-center">
+            <div class="p-6 rounded-lg bg-white/5 border border-white/5 hover:border-blato-primary/50 transition-colors">
+                <div class="text-blato-primary mb-3 text-4xl">📅</div>
                 <h4 class="font-bebas text-xl text-white mb-2">Google Calendar</h4>
-                <p class="text-sm text-gray-400">Evento el 3er martes de cada mes. Link fijo de Meet.</p>
+                <p class="text-xs text-gray-400 leading-relaxed">Evento recurrente el 3er martes. Link de Meet fijo siempre a mano.</p>
             </div>
-            <div>
+            <div class="p-6 rounded-lg bg-white/5 border border-white/5 hover:border-blato-gold/50 transition-colors">
+                <div class="text-blato-gold mb-3 text-4xl">💬</div>
                 <h4 class="font-bebas text-xl text-white mb-2">Google Chat Space</h4>
-                <p class="text-sm text-gray-400">El Organizador anuncia la consigna aquí 1 semana antes.</p>
+                <p class="text-xs text-gray-400 leading-relaxed">El Organizador anuncia la consigna aquí 1 semana antes.</p>
             </div>
-            <div>
+            <div class="p-6 rounded-lg bg-white/5 border border-white/5 hover:border-blato-primary/50 transition-colors">
+                <div class="text-blato-primary mb-3 text-4xl">⚡</div>
                 <h4 class="font-bebas text-xl text-white mb-2">Feedback Flash</h4>
-                <p class="text-sm text-gray-400">Encuesta opcional de 15 segundos post-reunión.</p>
+                <p class="text-xs text-gray-400 leading-relaxed">Encuesta opcional de 15 segundos post-reunión para mejorar.</p>
             </div>
         </div>
     </section>
 
-    <!-- SECTION: PLAYLIST -->
-    <section class="py-16 bg-black/20 border-t border-white/5 fade-in-section">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <h3 class="font-bebas text-2xl text-gray-500 mb-6 uppercase tracking-widest">Playlist Vibes</h3>
-            <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-400 font-mono">
-                <span class="px-3 py-1 border border-white/10 rounded-full">1. Take on Me (Acoustic)</span>
-                <span class="px-3 py-1 border border-white/10 rounded-full">2. Everybody Wants to Rule the World</span>
-                <span class="px-3 py-1 border border-white/10 rounded-full">3. Africa - Toto</span>
-                <span class="px-3 py-1 border border-white/10 rounded-full">4. Dreams - Fleetwood Mac</span>
-                <span class="px-3 py-1 border border-white/10 rounded-full">5. Don't Stop Believin'</span>
-                <span class="px-3 py-1 border border-white/10 rounded-full">6. Under Pressure</span>
-                <span class="px-3 py-1 border border-white/10 rounded-full text-blato-gold border-blato-gold/30">... y tus sugerencias</span>
+    <!-- PLAYLIST -->
+    <section class="py-20 bg-black/30 border-t border-white/5 fade-in-section">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <h3 class="font-bebas text-3xl text-gray-500 mb-8 uppercase tracking-[0.2em]">Playlist Vibes: 80s & 90s Classics</h3>
+            <div class="flex flex-wrap justify-center gap-3">
+                <!-- Items de playlist mejorados con Artista y Año -->
+                <div class="group px-4 py-2 border border-white/10 rounded-full bg-white/5 hover:border-blato-primary hover:bg-blato-primary/10 transition-all cursor-default flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                    <span class="text-xs md:text-sm text-gray-300 font-mono">Take on Me - <strong class="text-white">a-ha</strong> <span class="text-gray-500">(1985)</span></span>
+                </div>
+                
+                <div class="group px-4 py-2 border border-white/10 rounded-full bg-white/5 hover:border-blato-gold hover:bg-blato-gold/10 transition-all cursor-default flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-blato-gold"></span>
+                    <span class="text-xs md:text-sm text-gray-300 font-mono">Everybody Wants to Rule the World - <strong class="text-white">Tears for Fears</strong> <span class="text-gray-500">(1985)</span></span>
+                </div>
+
+                <div class="group px-4 py-2 border border-white/10 rounded-full bg-white/5 hover:border-blato-primary hover:bg-blato-primary/10 transition-all cursor-default flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-blato-primary"></span>
+                    <span class="text-xs md:text-sm text-gray-300 font-mono">Africa - <strong class="text-white">Toto</strong> <span class="text-gray-500">(1982)</span></span>
+                </div>
+
+                <div class="group px-4 py-2 border border-white/10 rounded-full bg-white/5 hover:border-blato-gold hover:bg-blato-gold/10 transition-all cursor-default flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-blato-gold"></span>
+                    <span class="text-xs md:text-sm text-gray-300 font-mono">Every Breath You Take - <strong class="text-white">The Police</strong> <span class="text-gray-500">(1983)</span></span>
+                </div>
+
+                <div class="group px-4 py-2 border border-white/10 rounded-full bg-white/5 hover:border-blato-primary hover:bg-blato-primary/10 transition-all cursor-default flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-blato-primary"></span>
+                    <span class="text-xs md:text-sm text-gray-300 font-mono">Don't Stop Believin' - <strong class="text-white">Journey</strong> <span class="text-gray-500">(1981)</span></span>
+                </div>
+
+                <div class="group px-4 py-2 border border-white/10 rounded-full bg-white/5 hover:border-blato-gold hover:bg-blato-gold/10 transition-all cursor-default flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-blato-gold"></span>
+                    <span class="text-xs md:text-sm text-gray-300 font-mono">Under Pressure - <strong class="text-white">Queen & Bowie</strong> <span class="text-gray-500">(1981)</span></span>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="py-12 px-6 bg-[#050f1e] text-center border-t border-white/5">
-        <div class="font-bold text-2xl tracking-tighter text-white/50 mb-4">
+    <footer class="py-12 px-6 bg-[#030912] text-center border-t border-white/5">
+        <div class="font-bold text-3xl tracking-tighter text-white/30 mb-4 hover:text-white/50 transition-colors cursor-default">
             Blato<span class="text-blato-primary/50">RH</span>
         </div>
-        <p class="text-gray-600 text-sm">© Blatorh Group. Uso interno exclusivo para líderes.</p>
+        <p class="text-gray-600 text-xs uppercase tracking-widest">© Blatorh Group. Uso interno exclusivo para líderes.</p>
     </footer>
 
-    <!-- MODAL -->
-    <div id="topicsModal" class="fixed inset-0 z-[100] modal-hidden items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300">
-        <div class="bg-blato-dark w-full max-w-3xl m-6 rounded-2xl shadow-2xl border border-blato-gold/30 relative flex flex-col max-h-[90vh]">
+    <!-- MODAL (Misma funcionalidad, diseño pulido) -->
+    <div id="topicsModal" class="fixed inset-0 z-[100] modal-hidden items-center justify-center bg-black/90 backdrop-blur-sm transition-opacity duration-300 p-4">
+        <div class="bg-[#0D2240] w-full max-w-4xl rounded-2xl shadow-2xl border border-blato-gold/30 flex flex-col max-h-[85vh] overflow-hidden animate-up">
             
-            <!-- Header Modal -->
-            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-[#0f2a4d] rounded-t-2xl">
-                <h3 class="font-bebas text-2xl text-white">20 Disparadores de Conversación</h3>
-                <button onclick="toggleModal()" class="text-gray-400 hover:text-white transition-colors">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-[#0a1b33]">
+                <h3 class="font-bebas text-3xl text-white tracking-wide">20 Disparadores de Conversación</h3>
+                <button onclick="toggleModal()" class="text-gray-400 hover:text-white transition-colors bg-white/5 p-2 rounded-full hover:bg-white/10">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
-            <!-- Content Modal (Scrollable) -->
-            <div class="p-6 overflow-y-auto custom-scrollbar">
+            <div class="p-8 overflow-y-auto custom-scrollbar bg-gradient-to-b from-[#0D2240] to-[#08162b]">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">¿Qué libro podrías releer mil veces?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">¿Cuál fue tu primer trabajo (no profesional)?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">Si pudieras cenar con un personaje histórico, ¿quién sería?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">¿Qué superpoder inútil te gustaría tener?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">La mejor película que viste este año.</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">¿Sos de mañana o de noche?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">¿Dulce o salado? Defendé tu postura.</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">¿Qué deporte te gustaría dominar sin esfuerzo?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">Tu aplicación de celular más usada (sin contar redes sociales).</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">Un talento oculto que tengas.</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">¿Perros o gatos?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">El mejor concierto de tu vida.</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">¿Qué harías en un año sabático?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">Tu gusto de helado favorito.</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">¿Playa o Montaña?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">La comida más extraña que probaste.</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">¿Qué serie recomendás siempre?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">¿Te gusta cocinar? ¿Cuál es tu especialidad?</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-primary text-sm text-gray-300">Un lugar de tu ciudad que todos deberían conocer.</div>
-                    <div class="bg-white/5 p-3 rounded border-l-2 border-blato-gold text-sm text-gray-300">¿Qué consejo le darías a tu yo de 20 años?</div>
+                    <!-- Lista de temas (reutilizando lógica anterior con mejor estilo) -->
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Qué libro podrías releer mil veces?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Cuál fue tu primer trabajo (no profesional)?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">Si pudieras cenar con un personaje histórico, ¿quién sería?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Qué superpoder inútil te gustaría tener?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">La mejor película que viste este año.</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Sos de mañana o de noche?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Dulce o salado? Defendé tu postura.</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Qué deporte te gustaría dominar sin esfuerzo?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">Tu aplicación de celular más usada (sin contar redes sociales).</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">Un talento oculto que tengas.</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Perros o gatos?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">El mejor concierto de tu vida.</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Qué harías en un año sabático?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">Tu gusto de helado favorito.</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Playa o Montaña?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">La comida más extraña que probaste.</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Qué serie recomendás siempre?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Te gusta cocinar? ¿Cuál es tu especialidad?</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">Un lugar de tu ciudad que todos deberían conocer.</p>
+                    </div>
+                    <div class="p-4 rounded border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                        <p class="text-sm text-gray-200">¿Qué consejo le darías a tu yo de 20 años?</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Footer Modal -->
-            <div class="p-6 border-t border-white/10 bg-[#0f2a4d] rounded-b-2xl text-center">
-                <button onclick="toggleModal()" class="text-blato-gold hover:text-white uppercase tracking-widest text-xs font-bold">Cerrar</button>
+            <div class="p-6 border-t border-white/10 bg-[#0a1b33] flex justify-center">
+                <button onclick="toggleModal()" class="text-blato-gold hover:text-white uppercase tracking-widest text-xs font-bold transition-colors">Cerrar Ventana</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- 1. Animaciones al hacer Scroll ---
+        // Animaciones Scroll
         document.addEventListener("DOMContentLoaded", function() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15
-            };
-
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); // Animación solo una vez
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
-
-            const sections = document.querySelectorAll('.fade-in-section');
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+            document.querySelectorAll('.fade-in-section').forEach(section => observer.observe(section));
         });
 
-        // --- 2. Funcionalidad Modal ---
+        // Modal
         function toggleModal() {
             const modal = document.getElementById('topicsModal');
             if (modal.classList.contains('modal-hidden')) {
                 modal.classList.remove('modal-hidden');
                 modal.classList.add('modal-visible');
-                document.body.style.overflow = 'hidden'; // Evitar scroll de fondo
+                document.body.style.overflow = 'hidden';
             } else {
                 modal.classList.remove('modal-visible');
                 modal.classList.add('modal-hidden');
@@ -475,37 +631,19 @@
             }
         }
 
-        // Cerrar modal con tecla ESC
-        document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape") {
-                const modal = document.getElementById('topicsModal');
-                if (modal.classList.contains('modal-visible')) {
-                    toggleModal();
-                }
-            }
-        });
+        // Close Modal Events
+        document.addEventListener('keydown', (e) => { if (e.key === "Escape") { const m = document.getElementById('topicsModal'); if(m.classList.contains('modal-visible')) toggleModal(); }});
+        document.getElementById('topicsModal').addEventListener('click', function(e) { if (e.target === this) toggleModal(); });
 
-        // Cerrar modal clickeando afuera
-        document.getElementById('topicsModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                toggleModal();
-            }
-        });
-
-        // --- 3. Funcionalidad Copiar al Portapapeles ---
+        // Copy to Clipboard
         function copyToClipboard() {
             const textToCopy = "📅 Invitación: Cafecito Virtual Líderes - Blatorh\n⏰ Duración: 45 min\n📆 Cuándo: 3er martes de cada mes\n☕ Agenda: Charla distendida y rotativa.\n\n¡Te esperamos para desconectar!";
-            
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const feedback = document.getElementById('copy-feedback');
                 feedback.classList.remove('opacity-0');
-                
-                setTimeout(() => {
-                    feedback.classList.add('opacity-0');
-                }, 3000);
+                setTimeout(() => { feedback.classList.add('opacity-0'); }, 3000);
             }).catch(err => {
-                console.error('Error al copiar: ', err);
-                alert("No se pudo copiar automáticamente. Por favor copia el texto manualmente.");
+                alert("Por favor copia el texto manualmente.");
             });
         }
     </script>
